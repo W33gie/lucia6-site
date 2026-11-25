@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lucia 6 AI</title>
+<meta name="description" content="Lucia, an AI persona. Videos, photos and links to her X and Instagram.">
+<meta name="theme-color" content="#e9e4e2">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lucia 6 AI">
+<meta property="og:description" content="Curls, hoops and zero patience. Follow along for new drops.">
+<meta property="og:image" content="/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lucia 6 AI">
+<meta name="twitter:description" content="Curls, hoops and zero patience. Follow along for new drops.">
+<meta name="twitter:image" content="/og.jpg">
+<style>
+/* Base reset */
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; -webkit-text-size-adjust: 100%; }
+img, video { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Manrope:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow column. Name and bio, the two clips, link buttons, a three-photo strip, then a compact photo grid. Token block removed for now (copy in token-block.html). */
+:root {
+  --bg: #e9e4e2;        /* warm studio grey from her backdrop */
+  --surface: #f6f2f0;
+  --fg: #1e1716;
+  --muted: #6b5f5c;
+  --red: #8e2326;       /* bandana */
+  --gold: #b8892f;      /* hoops */
+  --line: #cfc6c3;
+  --on-red: #fff6ef;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171211; --surface: #221a19; --fg: #f3ebe7; --muted: #b3a5a1;
+    --red: #b9373a; --gold: #d8aa4f; --line: #3a2e2c; --on-red: #fff6ef;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #171211; --surface: #221a19; --fg: #f3ebe7; --muted: #b3a5a1;
+  --red: #b9373a; --gold: #d8aa4f; --line: #3a2e2c; --on-red: #fff6ef;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 560px; margin: 0 auto; padding-block: 20px 48px; display: flex; flex-direction: column; gap: 40px; }
+
+/* Hero */
+.hero { display: flex; flex-direction: column; gap: 14px; }
+/* Photo strip: main shot in the middle, a tall bikini shot either side, all the same height */
+.strip { display: grid; grid-template-columns: .85fr 2fr .85fr; gap: 6px; }
+.strip img { display: block; width: 100%; height: auto; border-radius: 4px; background: var(--surface); }
+.side { position: relative; min-width: 0; }
+.side img { position: absolute; inset: 0; height: 100%; object-fit: cover; object-position: center 30%; }
+.hero-text { position: relative; color: var(--fg); }
+.tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+}
+.tag::before { content: ""; width: 14px; height: 14px; border: 2.5px solid var(--gold); border-radius: 50%; }
+h1 {
+  font-family: var(--display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(72px, 24vw, 128px); line-height: .82; letter-spacing: -.01em; margin: 6px 0 10px;
+}
+h1 span { color: var(--gold); }
+.bio { margin: 0; max-width: 34ch; font-size: 16px; color: var(--muted); text-wrap: balance; }
+
+/* Links */
+.links { display: grid; gap: 12px; }
+.link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: 4px; text-decoration: none;
+  background: var(--red); color: var(--on-red);
+  transition: transform .15s ease, filter .15s ease;
+}
+.link:hover { filter: brightness(1.08); }
+.link:active { transform: scale(.99); }
+.link:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.link svg { width: 24px; height: 24px; flex: none; fill: currentColor; }
+.link .who { display: flex; flex-direction: column; min-width: 0; }
+.link .net { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+.link .handle { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.05; overflow-wrap: anywhere; }
+.link .go { margin-left: auto; font-size: 22px; }
+
+/* Video */
+.clips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.clip { position: relative; min-width: 0; }
+.clip video {
+  display: block; width: 100%; height: auto; max-height: 60vh; aspect-ratio: 9 / 16;
+  object-fit: cover; border-radius: 4px; background: var(--surface);
+}
+.sound {
+  position: absolute; right: 8px; bottom: 8px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 10px; border: 0; border-radius: 999px; cursor: pointer;
+  background: rgba(18,10,9,.72); color: #fff6ef;
+  font: 700 12px/1 var(--body); letter-spacing: .04em;
+}
+.sound:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.sound svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* Section heads */
+h2 {
+  font-family: var(--display); font-weight: 900; text-transform: uppercase;
+  font-size: 40px; line-height: 1; margin: 0 0 14px; text-wrap: balance;
+}
+
+/* Gallery: one compact grid of square thumbnails; first 7 show, the 8th tile opens the rest */
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.gallery img {
+  display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 18%;
+  border-radius: 4px; background: var(--surface);
+}
+.gallery .extra { display: none; }
+.more { position: relative; }
+.more span {
+  position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
+  border-radius: 4px; background: rgba(18,10,9,.62); color: #fff6ef;
+  font-family: var(--display); font-weight: 900; font-size: 28px;
+}
+
+/* Token */
+.token { position: relative; border: 1.5px dashed var(--line); border-radius: 4px; padding: 22px 20px; background: var(--surface); }
+.mini { position: absolute; top: 0; right: 0; display: flex; gap: 8px; }
+.mini a {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--red); color: var(--on-red); transition: filter .15s ease, transform .15s ease;
+}
+.mini a:hover { filter: brightness(1.1); }
+.mini a:active { transform: scale(.94); }
+.mini a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.mini svg { width: 16px; height: 16px; fill: currentColor; }
+.status {
+  display: inline-block; margin-bottom: 12px; padding: 4px 10px; border-radius: 999px;
+  border: 1.5px solid var(--gold); color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+}
+.token p { margin: 0 0 12px; max-width: 60ch; }
+.token .warn { margin: 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.token .warn strong { color: var(--fg); }
+
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+footer p { margin: 0 0 6px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .strip > img { animation: settle 1.1s ease-out both; }
+  @keyframes settle { from { transform: scale(1.06); } to { transform: scale(1); } }
+}
+
+/* Lightbox */
+.lb[hidden] { display: none !important; }
+.zoom { cursor: zoom-in; transition: filter .15s ease; }
+.zoom:hover { filter: brightness(1.06); }
+.zoom:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.lb {
+  position: fixed; inset: 0; z-index: 50; background: rgba(12,8,7,.94);
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 56px) max(12px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 56px) max(12px, env(safe-area-inset-left, 0px));
+  touch-action: pan-y;
+}
+.lb img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px; }
+.lb button {
+  position: absolute; border: 0; cursor: pointer; border-radius: 999px;
+  background: rgba(255,246,239,.12); color: #fff6ef; width: 44px; height: 44px;
+  font: 700 22px/1 var(--body); display: grid; place-items: center;
+}
+.lb button:hover { background: rgba(255,246,239,.22); }
+.lb button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.lb .x { top: calc(env(safe-area-inset-top, 0px) + 8px); right: max(12px, env(safe-area-inset-right, 0px)); }
+.lb .prev, .lb .next { bottom: calc(env(safe-area-inset-bottom, 0px) + 8px); }
+.lb .prev { left: max(12px, env(safe-area-inset-left, 0px)); }
+.lb .next { right: max(12px, env(safe-area-inset-right, 0px)); }
+.lb .count {
+  position: absolute; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); left: 50%; transform: translateX(-50%);
+  color: #e8dcd7; font-size: 13px; font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="hero-text">
+      <div class="mini">
+        <a href="https://x.com/lucia6ai" target="_blank" rel="noopener" aria-label="Lucia on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://www.instagram.com/lucia6.ai/" target="_blank" rel="noopener" aria-label="Lucia on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></a>
+      </div>
+      <div class="tag">AI persona</div>
+      <h1>Lucia<span>6</span></h1>
+      <p class="bio">Curls, hoops and zero patience. Follow along for new drops.</p>
+    </div>
+    <div class="clips">
+      <div class="clip">
+        <video src="img/drift.mp4" poster="img/drift-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Lucia drifting a red convertible at night"></video>
+        <button class="sound" type="button" aria-pressed="false">Tap for sound</button>
+      </div>
+      <div class="clip">
+        <video src="img/cash.mp4" poster="img/cash-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Lucia fanning out stacks of cash"></video>
+        <button class="sound" type="button" aria-pressed="false">Tap for sound</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="links" aria-label="Lucia's socials">
+    <a class="link" href="https://x.com/lucia6ai" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <span class="who"><span class="net">X</span><span class="handle">@lucia6ai</span></span>
+      <span class="go" aria-hidden="true">→</span>
+    </a>
+    <a class="link" href="https://www.instagram.com/lucia6.ai/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>
+      <span class="who"><span class="net">Instagram</span><span class="handle">@lucia6.ai</span></span>
+      <span class="go" aria-hidden="true">→</span>
+    </a>
+  </nav>
+
+  <div class="strip">
+    <div class="side"><img class="zoom" src="img/19.webp" alt="Studio, red bikini, facing front" width="280" height="781"></div>
+    <img class="zoom" src="img/21.webp" alt="Lucia poolside at sunset in a red bikini, skyline behind" width="536" height="715">
+    <div class="side"><img class="zoom" src="img/20.webp" alt="Studio, red bikini, side profile" width="222" height="781"></div>
+  </div>
+
+  <script>
+    // Browsers only autoplay muted video, so each clip gets a sound toggle.
+    // Turning one clip's sound on mutes the others.
+    const ICON_OFF = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.6 3 2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4z"/></svg>';
+    const ICON_ON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+    const clips = [...document.querySelectorAll('.clip')];
+    function paint(clip) {
+      const v = clip.querySelector('video'), b = clip.querySelector('.sound');
+      b.innerHTML = v.muted ? ICON_OFF + 'Tap for sound' : ICON_ON + 'Sound on';
+      b.setAttribute('aria-pressed', String(!v.muted));
+    }
+    clips.forEach(clip => {
+      const v = clip.querySelector('video'), b = clip.querySelector('.sound');
+      paint(clip);
+      b.addEventListener('click', () => {
+        const turnOn = v.muted;
+        clips.forEach(c => { c.querySelector('video').muted = true; paint(c); });
+        if (turnOn) {
+          v.muted = false; v.currentTime = 0;
+          v.play().catch(() => {});
+        }
+        paint(clip);
+      });
+    });
+  </script>
+
+  <section aria-labelledby="g-h">
+    <h2 id="g-h">The look</h2>
+    <div class="gallery" aria-label="Photo gallery">
+      <img class="zoom" src="img/1.webp" alt="Close-up portrait: curly ponytail, gold hoop earrings, red paisley bandana" width="1086" height="1448" loading="lazy">
+      <img class="zoom" src="img/8.webp" alt="Night street, neon and palm trees, tropical shirt and cargo pants" width="1024" height="1536" loading="lazy">
+      <img class="zoom" src="img/9.webp" alt="Outside a club at night in a pink sequin dress" width="1024" height="1536" loading="lazy">
+      <img class="zoom" src="img/10.webp" alt="Leaning on a beach lifeguard stand, skyline behind" width="1024" height="1536" loading="lazy">
+      <img class="zoom" src="img/16.webp" alt="Portrait, facing front, gold hoops and chain" width="352" height="513" loading="lazy">
+      <img class="zoom" src="img/17.webp" alt="Portrait, looking back over her shoulder" width="315" height="513" loading="lazy">
+      <img class="zoom" src="img/18.webp" alt="Portrait, side profile with ponytail" width="298" height="513" loading="lazy">
+      <div class="more"><img class="zoom" src="img/12.webp" alt="Studio, full-length, facing front, serious" width="1086" height="1448" loading="lazy"><span aria-hidden="true">+3</span></div>
+      <img class="zoom extra" src="img/13.webp" alt="Studio, full-length, three-quarter turn, half smile" width="1086" height="1448" loading="lazy">
+      <img class="zoom extra" src="img/14.webp" alt="Studio, full-length, facing front, smiling" width="1086" height="1448" loading="lazy">
+      <img class="zoom extra" src="img/15.webp" alt="Studio, full-length, side profile" width="1086" height="1448" loading="lazy">
+    </div>
+  </section>
+
+  <footer>
+    <p>Lucia is an AI-generated character. Every image on this page is AI-made.</p>
+    <p>Not affiliated with any game, studio or publisher.</p>
+  </footer>
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <img id="lb-img" alt="">
+    <button class="x" id="lb-x" type="button" aria-label="Close">×</button>
+    <button class="prev" id="lb-prev" type="button" aria-label="Previous photo">‹</button>
+    <button class="next" id="lb-next" type="button" aria-label="Next photo">›</button>
+    <span class="count" id="lb-count"></span>
+  </div>
+
+  <script>
+    // Tap any photo to view it full screen; swipe or use the arrows to move between photos.
+    (() => {
+      const pics = [...document.querySelectorAll('img.zoom')];
+      const lb = document.getElementById('lb'), big = document.getElementById('lb-img');
+      const count = document.getElementById('lb-count');
+      let i = 0, opener = null, startX = null;
+      function show(n) {
+        i = (n + pics.length) % pics.length;
+        big.src = pics[i].src; big.alt = pics[i].alt;
+        count.textContent = (i + 1) + ' / ' + pics.length;
+      }
+      function open(n) {
+        opener = pics[n]; show(n); lb.hidden = false;
+        document.body.style.overflow = 'hidden';
+        document.getElementById('lb-x').focus();
+      }
+      function close() {
+        lb.hidden = true; document.body.style.overflow = '';
+        if (opener) opener.focus();
+      }
+      pics.forEach((p, n) => {
+        p.tabIndex = 0; p.setAttribute('role', 'button');
+        p.addEventListener('click', () => open(n));
+        p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(n); } });
+      });
+      document.getElementById('lb-x').addEventListener('click', close);
+      document.getElementById('lb-prev').addEventListener('click', () => show(i - 1));
+      document.getElementById('lb-next').addEventListener('click', () => show(i + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+      document.addEventListener('keydown', e => {
+        if (lb.hidden) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') show(i - 1);
+        else if (e.key === 'ArrowRight') show(i + 1);
+      });
+      lb.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', e => {
+        if (startX === null) return;
+        const dx = e.changedTouches[0].clientX - startX; startX = null;
+        if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
+      });
+    })();
+  </script>
+</main>
+</body>
+</html>
