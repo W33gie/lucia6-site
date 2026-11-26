@@ -30,7 +30,7 @@ img, video { max-width: 100%; }
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Manrope:wght@400;500;700&display=swap">
 <style>
-/* Layout: one narrow column. Name and bio, the three clips, link buttons, a three-photo strip, then a compact photo grid. Token block removed for now (copy in token-block.html). */
+/* Layout: one narrow column. Name and bio, the two clips, link buttons, a three-photo strip, then a compact photo grid. Token block removed for now (copy in token-block.html). */
 :root {
   --bg: #e9e4e2;        /* warm studio grey from her backdrop */
   --surface: #f6f2f0;
@@ -103,20 +103,21 @@ h1 span { color: var(--gold); }
 .link .go { margin-left: auto; font-size: 22px; }
 
 /* Video */
-.clips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.clips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .clip { position: relative; min-width: 0; }
 .clip video {
   display: block; width: 100%; height: auto; max-height: 60vh; aspect-ratio: 9 / 16;
   object-fit: cover; border-radius: 4px; background: var(--surface);
 }
 .sound {
-  position: absolute; right: 6px; bottom: 6px;
-  display: grid; place-items: center; width: 34px; height: 34px;
-  padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  position: absolute; right: 8px; bottom: 8px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 10px; border: 0; border-radius: 999px; cursor: pointer;
   background: rgba(18,10,9,.72); color: #fff6ef;
+  font: 700 12px/1 var(--body); letter-spacing: .04em;
 }
 .sound:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-.sound svg { width: 18px; height: 18px; fill: currentColor; }
+.sound svg { width: 16px; height: 16px; fill: currentColor; }
 
 /* Section heads */
 h2 {
@@ -209,16 +210,12 @@ footer p { margin: 0 0 6px; }
     </div>
     <div class="clips">
       <div class="clip">
-        <video src="img/fight.mp4" poster="img/fight-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Lucia winning a cage fight"></video>
-        <button class="sound" type="button" aria-pressed="false" aria-label="Turn sound on"></button>
-      </div>
-      <div class="clip">
         <video src="img/drift.mp4" poster="img/drift-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Lucia drifting a red convertible at night"></video>
-        <button class="sound" type="button" aria-pressed="false" aria-label="Turn sound on"></button>
+        <button class="sound" type="button" aria-pressed="false">Tap for sound</button>
       </div>
       <div class="clip">
         <video src="img/cash.mp4" poster="img/cash-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Lucia fanning out stacks of cash"></video>
-        <button class="sound" type="button" aria-pressed="false" aria-label="Turn sound on"></button>
+        <button class="sound" type="button" aria-pressed="false">Tap for sound</button>
       </div>
     </div>
   </header>
@@ -250,9 +247,8 @@ footer p { margin: 0 0 6px; }
     const clips = [...document.querySelectorAll('.clip')];
     function paint(clip) {
       const v = clip.querySelector('video'), b = clip.querySelector('.sound');
-      b.innerHTML = v.muted ? ICON_OFF : ICON_ON;
+      b.innerHTML = v.muted ? ICON_OFF + 'Tap for sound' : ICON_ON + 'Sound on';
       b.setAttribute('aria-pressed', String(!v.muted));
-      b.setAttribute('aria-label', v.muted ? 'Turn sound on' : 'Turn sound off');
     }
     clips.forEach(clip => {
       const v = clip.querySelector('video'), b = clip.querySelector('.sound');
